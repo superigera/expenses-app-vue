@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/login">
+  <router-link to="/inquiry">
     <v-btn
       rounded="lg"
       color="primary"
