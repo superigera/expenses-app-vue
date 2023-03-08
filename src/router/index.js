@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Top from '@/views/TopPage.vue'
-// import RecordAnalysis from '@/views/RecordAnalysis.vue'
+import RecordAnalysis from '@/views/RecordAnalysis.vue'
 import Login from '@/views/Login'
-// import Signup from '@/views/Signup'
-// import Mypage from '@/views/Mypage'
-// import Inquiry from '@/views/Inquiry'
+import Signup from '@/views/Signup'
+import Mypage from '@/views/Mypage'
+import Inquiry from '@/views/Inquiry'
 
 const routes = [
     {
@@ -12,31 +12,31 @@ const routes = [
         name: 'Top',
         component: Top
     },
-    // {
-    //     path: '/record',
-    //     name: 'RecordAnalysis',
-    //     component: RecordAnalysis
-    // },
+    {
+        path: '/record',
+        name: 'RecordAnalysis',
+        component: RecordAnalysis
+    },
     {
         path: '/login',
         name: 'Login',
         component: Login
     },
-    // {
-    //     path: '/signup',
-    //     name: 'Signup',
-    //     component: Signup
-    // },
-    // {
-    //     path: '/mypage',
-    //     name: 'Mypage',
-    //     component: Mypage
-    // },
-    // {
-    //     path: '/inquiry',
-    //     name: 'Inquiry',
-    //     component: Inquiry
-    // },
+    {
+        path: '/signup',
+        name: 'Signup',
+        component: Signup
+    },
+    {
+        path: '/mypage',
+        name: 'Mypage',
+        component: Mypage
+    },
+    {
+        path: '/inquiry',
+        name: 'Inquiry',
+        component: Inquiry
+    },
 ]
 
 const router = createRouter({
