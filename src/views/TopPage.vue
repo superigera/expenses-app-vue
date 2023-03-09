@@ -1,5 +1,6 @@
 <template>
-  <v-app>
+  <v-app id="back-color">
+    <HeaderMenu />
     <v-carousel>
       <v-carousel-item
         src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
@@ -17,16 +18,26 @@
       ></v-carousel-item>
     </v-carousel>
 
+    
+    <div class="d-flex justify-space-around pt-12">
+        <LoginButton />
+        <SignupButton />
+        <InquiryButton />
+    </div>
+
   </v-app>
-  <InquiryButton />
 </template>
 
 <script setup>
+import HeaderMenu from '@/components/HeaderMenu.vue'
+import LoginButton from '@/components/button/LoginButton.vue';
 import InquiryButton from '@/components/button/InquiryButton.vue'
+import SignupButton from '@/components/button/SignupButton.vue';
+
 </script>
 
 <style scoped>
-.body{
-  background-color: aqua;
+#back-color{
+  background: #E8EAF6;
 }
 </style>

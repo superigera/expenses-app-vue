@@ -1,11 +1,11 @@
 <template>
-  <router-link to="/inquiry">
+  <router-link to="/login">
     <v-btn
       rounded="lg"
       color="indigo-darken-1"
       size="x-large"
     >
-    問い合わせ
+    ログイン
     </v-btn>
   </router-link>
 </template>
