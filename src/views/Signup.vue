@@ -69,15 +69,10 @@ function submit(){
       "lastName" : signupInfo.lastName,
       "firstName" : signupInfo.firstName,
       "email" : signupInfo.email,
-      "password": signupInfo.password,
-      // "signupInfo" :signupInfo
+      "password": signupInfo.password
   }
   ,{ headers: { "Content-Type": "application/json"} }
   )
-      .then(console.log(signupInfo))
-
-  }else{
-    console.log("no")
   }
 }
 </script>

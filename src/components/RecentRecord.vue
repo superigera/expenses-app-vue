@@ -1,14 +1,14 @@
 <template>
     <v-app>
         <HeaderMenu />
-        <v-sheet width="200" class="mx-auto">
+        <p>最近の記録</p>
+        <!-- <v-sheet width="200" class="mx-auto">
             <v-form ref="form" id="padding">
-            <p>家計簿入力</p>
             <v-text-field
-                v-model="householdAccountBook.dating"
+                v-model="householdAccountBook.date"
                 :counter="10"
                 label="日付"
-            ><Datepicker v-model="date" /></v-text-field>
+            ><v-date-picker v-model="householdAccountBook.date" /></v-text-field>
 
             <v-text-field
                 v-model="householdAccountBook.amountOfMoney"
@@ -18,7 +18,7 @@
 
             <v-select
                 v-model="householdAccountBook.category"
-                :items="items"
+                :items="[]"
                 label="カテゴリ"
             ></v-select>
 
@@ -39,7 +39,7 @@
                 </v-btn>
             </div>
             </v-form>
-        </v-sheet>
+        </v-sheet> -->
     </v-app>
 </template>
 
@@ -49,42 +49,39 @@ import { reactive, ref } from 'vue'
 import axios from 'axios';
 
 const householdAccountBook = reactive({
-    dating : '',
+    date : '',
     amountOfMoney : '',
     category : '',
     remarks : '',
 })
 
 const items = ref([]);
-const date = ref(null)
-//日付
-//カレンダーで選択できるようにする
-//vue3だとv-date-picker非対応
 
 
-
-
-// カテゴリの種類を取得
-axios.get("http://localhost:8080/category")
+axios.get("http://localhost:8080/record")
     .then(response => {
         items.value = response.data
+        // console.log(items.value)
     })
 
 
+//DBにレコードの用意
+//収入はカテゴリーに含める
+//
 
-function submit(){
-    //プルダウンのindexを取得
-    var result = items.value.indexOf(householdAccountBook.category)
+//編集OKの処理にする
+// function submit(){
+//     axios.post("http://localhost:8080/record",{
+//         "date" : householdAccountBook.date,
+//         "amountOfMoney" : householdAccountBook.amountOfMoney,
+//         "category" : householdAccountBook.category,
+//         "remarks": householdAccountBook.remarks,
+//     }
+//     ,{ headers: { "Content-Type": "application/json"} }
+//     )
+//     .then(console.log(householdAccountBook))
 
-    axios.post("http://localhost:8080/record",{
-        "dating" : householdAccountBook.dating,
-        "amountOfMoney" : householdAccountBook.amountOfMoney,
-        "categoryId" : result,
-        "remarks": householdAccountBook.remarks,
-    }
-    ,{ headers: { "Content-Type": "application/json"} }
-    )
-}
+// }
 </script>
 
 <style>
