@@ -1,17 +1,9 @@
 <template>
-  <router-link to="/login">
-    <v-btn
-      rounded="lg"
-      color="indigo-darken-1"
-      size="x-large"
-    >
-    ログイン
-    </v-btn>
-  </router-link>
+  <BaseButton  to="/login" label ="ログイン"/>
 </template>
 
 <script setup>
-
+import BaseButton from './BaseButton.vue';
 </script>
 
 <style scoped>
