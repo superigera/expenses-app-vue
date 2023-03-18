@@ -26,6 +26,7 @@ const items = [
   { title: '新規会員登録', icon: 'mdi-account', route: '/signup' },
   { title: 'ログイン', icon: 'mdi-login', route: '/login' },
   { title: '問い合わせ', icon: 'mdi-email', route: '/inquiry' },
+  { title: 'テスト記録分析', icon: 'mdi-email', route: '/record' },
 ];
 
 function navigateTo(route) {

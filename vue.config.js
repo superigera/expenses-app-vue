@@ -4,9 +4,9 @@ module.exports = defineConfig({
   devServer: {
     port: 3000,
     host: 'localhost',
-    proxy: {
-        target: "http://localhost:8080"
-      }
+    // proxy: {
+    //     target: "http://localhost:8080"
+    //   }
     }
 })
 
