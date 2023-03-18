@@ -4,11 +4,8 @@
         <v-sheet width="200" class="mx-auto">
             <v-form ref="form" id="padding">
             <p>家計簿入力</p>
-            <v-text-field
-                v-model="householdAccountBook.dating"
-                :counter="10"
-                label="日付"
-            ><Datepicker v-model="date" /></v-text-field>
+
+            <Datepicker  style="padding-bottom: 22px;" v-model="householdAccountBook.dating" :format="format" model-type="yyyy年MM月dd日"/>
 
             <v-text-field
                 v-model="householdAccountBook.amountOfMoney"
@@ -47,6 +44,8 @@
 import HeaderMenu from '@/components/HeaderMenu.vue'
 import { reactive, ref } from 'vue'
 import axios from 'axios';
+import Datepicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const householdAccountBook = reactive({
     dating : '',
@@ -56,12 +55,11 @@ const householdAccountBook = reactive({
 })
 
 const items = ref([]);
-const date = ref(null)
-//日付
-//カレンダーで選択できるようにする
-//vue3だとv-date-picker非対応
 
-
+// 日付のフォーマット
+const format = args => {
+    return `${args.getFullYear()}年${("0" + (args.getMonth() + 1)).slice(-2)}月${("0" + (args.getDate() + 1)).slice(-2)}日`
+}
 
 
 // カテゴリの種類を取得
@@ -70,20 +68,22 @@ axios.get("http://localhost:8080/category")
         items.value = response.data
     })
 
-
-
+// 記録ボタン押下
 function submit(){
     //プルダウンのindexを取得
-    var result = items.value.indexOf(householdAccountBook.category)
+    const pullDownIndex = items.value.indexOf(householdAccountBook.category)
+
+    //日付置換
+    const dateReplacement = householdAccountBook.dating.replace(/年|月/g, '-').replace('日', '')
 
     axios.post("http://localhost:8080/record",{
-        "dating" : householdAccountBook.dating,
+        "dating" : dateReplacement,
         "amountOfMoney" : householdAccountBook.amountOfMoney,
-        "categoryId" : result,
+        "categoryId" : pullDownIndex,
         "remarks": householdAccountBook.remarks,
     }
     ,{ headers: { "Content-Type": "application/json"} }
-    )
+    )   
 }
 </script>
 
