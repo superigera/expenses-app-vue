@@ -1,17 +1,9 @@
 <template>
-  <router-link to="/inquiry">
-    <v-btn
-      rounded="lg"
-      color="indigo-darken-1"
-      size="x-large"
-    >
-    問い合わせ
-    </v-btn>
-  </router-link>
+  <BaseButton  to="/inquiry" label ="問い合わせ"/>
 </template>
 
 <script setup>
-
+import BaseButton from './BaseButton.vue';
 </script>
 
 <style scoped>
