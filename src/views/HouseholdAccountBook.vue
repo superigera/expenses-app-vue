@@ -14,7 +14,7 @@
             ></v-text-field>
 
             <v-select
-                v-model="householdAccountBook.category"
+                v-model="householdAccountBook.categoryId"
                 :items="items"
                 label="カテゴリ"
             ></v-select>
@@ -38,6 +38,9 @@
             </v-form>
         </v-sheet>
     </v-app>
+    <h3>test</h3>
+    {{ record }}
+    <h3>test</h3>
 </template>
 
 <script setup>
@@ -46,11 +49,16 @@ import { reactive, ref } from 'vue'
 import axios from 'axios';
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import { useRouter } from 'vue-router'
+
+const route = useRouter()
+const record = route.query.record
+
 
 const householdAccountBook = reactive({
     dating : '',
     amountOfMoney : '',
-    category : '',
+    categoryId : '',
     remarks : '',
 })
 
@@ -71,7 +79,7 @@ axios.get("http://localhost:8080/category")
 // 記録ボタン押下
 function submit(){
     //プルダウンのindexを取得
-    const pullDownIndex = items.value.indexOf(householdAccountBook.category)
+    const pullDownIndex = items.value.indexOf(householdAccountBook.categoryId)
 
     //日付置換
     const dateReplacement = householdAccountBook.dating.replace(/年|月/g, '-').replace('日', '')

@@ -1,87 +1,96 @@
 <template>
     <v-app>
-        <HeaderMenu />
         <p>最近の記録</p>
-        <!-- <v-sheet width="200" class="mx-auto">
-            <v-form ref="form" id="padding">
-            <v-text-field
-                v-model="householdAccountBook.date"
-                :counter="10"
-                label="日付"
-            ><v-date-picker v-model="householdAccountBook.date" /></v-text-field>
+        <!-- 横に並べるボタン群 -->
+        <button @click="sort">並び替え</button>
+        <button>絞り込み</button>
 
-            <v-text-field
-                v-model="householdAccountBook.amountOfMoney"
-                :counter="10"
-                label="金額"
-            ></v-text-field>
-
-            <v-select
-                v-model="householdAccountBook.category"
-                :items="[]"
-                label="カテゴリ"
-            ></v-select>
-
-            <v-text-field
-                v-model="householdAccountBook.remarks"
-                :counter="10"
-                label="備考"
-            ></v-text-field>
-
-            <div class="d-flex flex-column">
-                <v-btn
-                rounded="lg"
-                color="indigo-darken-1"
-                size="large"
-                @click="submit"
-                >
-                記録
-                </v-btn>
-            </div>
-            </v-form>
-        </v-sheet> -->
+        <ul>
+            <li>
+                <p>日付</p>
+                <p>金額</p>
+                <p>カテゴリ</p>
+                <p>備考</p>
+                <hr>
+            </li>
+        </ul>
+        
+        <ul>
+            <li v-for="record in records" :key="record.recordId">
+                {{ record.dating }}
+                {{ record.amountOfMoney }}
+                {{ record.categoryName }}
+                {{ record.remarks }}
+                <router-link :to="{path:'/create', query: {record: 'record'}}" >
+                    <button @click="test(record)">
+                        ▼
+                    </button>
+                </router-link>
+                <hr>
+            </li>
+        </ul>
     </v-app>
 </template>
 
 <script setup>
-import HeaderMenu from '@/components/HeaderMenu.vue'
 import { reactive, ref } from 'vue'
 import axios from 'axios';
 
 const householdAccountBook = reactive({
-    date : '',
+    recordId : '',
+    dating : '',
     amountOfMoney : '',
-    category : '',
+    categoryId : '',
     remarks : '',
 })
 
-const items = ref([]);
+function test(record){
+    console.log(record)
+}
 
+const records = ref([]);
+const sortFlag = ref(false);
 
-axios.get("http://localhost:8080/record")
+axios.get("http://localhost:8080/record",{
+    params:{
+        sort: sortFlag.value
+    }
+})
     .then(response => {
-        items.value = response.data
-        // console.log(items.value)
+        records.value = response.data
     })
 
-
-//DBにレコードの用意
-//収入はカテゴリーに含める
-//
-
-//編集OKの処理にする
-// function submit(){
-//     axios.post("http://localhost:8080/record",{
-//         "date" : householdAccountBook.date,
-//         "amountOfMoney" : householdAccountBook.amountOfMoney,
-//         "category" : householdAccountBook.category,
-//         "remarks": householdAccountBook.remarks,
-//     }
-//     ,{ headers: { "Content-Type": "application/json"} }
-//     )
-//     .then(console.log(householdAccountBook))
-
+// function edit(){
+//     window.open('https://www.sejuku.net/blog/48540',"window_name", "width=300,height=200,scrollbars=yes")
 // }
+
+// function sort(){
+//     sortFlag.value = !sortFlag.value
+//     console.log(sortFlag.value)
+
+//     axios.get("http://localhost:8080/record",{
+//         params:{
+//             sort: sortFlag.value
+//         }
+//     })
+//     .then(response => {
+//         records.value = response.data
+//     })
+// }
+
+//datingを年月日形式に変更
+//→record.datingをsubstring？
+//並び替えボタン(ソートは日付？)
+//Stringをdate型に変更する　変更してなくてもソートはできている
+
+//絞り込み(カテゴリごと)
+
+//編集ボタンメソッド
+//→押下したらpropsでHouseholdAccountBookに遷移して初期値を表示する
+//初期値がある場合更新のメソッドボタン、ない場合は記録のメソッドボタン
+//propsで画面のフラグを渡して上げれば実現できそう
+//ボタン押下後はここに遷移する
+
 </script>
 
 <style>

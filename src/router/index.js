@@ -5,6 +5,7 @@ import Login from '@/views/Login'
 import Signup from '@/views/Signup'
 import Mypage from '@/views/Mypage'
 import Inquiry from '@/views/Inquiry'
+import HouseholdAccountBook from '@/views/HouseholdAccountBook'
 
 const routes = [
     {
@@ -36,6 +37,11 @@ const routes = [
         path: '/inquiry',
         name: 'Inquiry',
         component: Inquiry
+    },
+    {
+        path: '/create',
+        name: 'HouseholdAccountBook',
+        component: HouseholdAccountBook
     },
 ]
 
