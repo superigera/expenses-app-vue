@@ -21,11 +21,12 @@
                 {{ record.amountOfMoney }}
                 {{ record.categoryName }}
                 {{ record.remarks }}
-                <router-link :to="{path:'/create', query: {record: 'record'}}" >
-                    <button @click="test(record)">
+                <router-link :to="{path:'/create', query: {Id: record.recordId}}" >
+                    <button>
                         ▼
                     </button>
                 </router-link>
+                <DeleteButton :targetRecord="record"/>
                 <hr>
             </li>
         </ul>
@@ -35,6 +36,8 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import axios from 'axios';
+import DeleteButton from './button/DeleteButton.vue';
+
 
 const householdAccountBook = reactive({
     recordId : '',
@@ -44,14 +47,10 @@ const householdAccountBook = reactive({
     remarks : '',
 })
 
-function test(record){
-    console.log(record)
-}
-
 const records = ref([]);
 const sortFlag = ref(false);
 
-axios.get("http://localhost:8080/record",{
+axios.get("http://localhost:8080/records",{
     params:{
         sort: sortFlag.value
     }
@@ -60,15 +59,12 @@ axios.get("http://localhost:8080/record",{
         records.value = response.data
     })
 
-// function edit(){
-//     window.open('https://www.sejuku.net/blog/48540',"window_name", "width=300,height=200,scrollbars=yes")
-// }
 
 // function sort(){
 //     sortFlag.value = !sortFlag.value
 //     console.log(sortFlag.value)
 
-//     axios.get("http://localhost:8080/record",{
+//     axios.get("http://localhost:8080/records",{
 //         params:{
 //             sort: sortFlag.value
 //         }
@@ -85,11 +81,6 @@ axios.get("http://localhost:8080/record",{
 
 //絞り込み(カテゴリごと)
 
-//編集ボタンメソッド
-//→押下したらpropsでHouseholdAccountBookに遷移して初期値を表示する
-//初期値がある場合更新のメソッドボタン、ない場合は記録のメソッドボタン
-//propsで画面のフラグを渡して上げれば実現できそう
-//ボタン押下後はここに遷移する
 
 </script>
 
