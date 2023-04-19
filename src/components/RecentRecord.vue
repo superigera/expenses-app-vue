@@ -1,92 +1,81 @@
 <template>
     <v-app>
-        <HeaderMenu />
-        <p>最近の記録</p>
-        <!-- <v-sheet width="200" class="mx-auto">
-            <v-form ref="form" id="padding">
-            <v-text-field
-                v-model="householdAccountBook.date"
-                :counter="10"
-                label="日付"
-            ><v-date-picker v-model="householdAccountBook.date" /></v-text-field>
+        <h3>履歴一覧</h3>
 
-            <v-text-field
-                v-model="householdAccountBook.amountOfMoney"
-                :counter="10"
-                label="金額"
-            ></v-text-field>
+        <div style="display: flex; margin-top: 10px;">
+            <v-btn  @click="sort" rounded="lg" color="indigo-darken-1" size="large">
+                並び替え
+            </v-btn>
+            <NarrowDownButton size="large" style="margin-left: 10px; width: 30px;"/>
+        </div>
 
-            <v-select
-                v-model="householdAccountBook.category"
-                :items="[]"
-                label="カテゴリ"
-            ></v-select>
-
-            <v-text-field
-                v-model="householdAccountBook.remarks"
-                :counter="10"
-                label="備考"
-            ></v-text-field>
-
-            <div class="d-flex flex-column">
-                <v-btn
-                rounded="lg"
-                color="indigo-darken-1"
-                size="large"
-                @click="submit"
-                >
-                記録
-                </v-btn>
-            </div>
-            </v-form>
-        </v-sheet> -->
+    <v-table>
+        <thead>
+            <tr>
+                <th>日付</th>
+                <th>金額</th>
+                <th>カテゴリ</th>
+                <th>備考</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="record in records" :key="record.recordId">
+                <td>{{ record.dating }}</td>
+                <td>{{ record.amountOfMoney }}</td>
+                <td>{{ record.categoryName }}</td>
+                <td>{{ record.remarks }}</td>
+                <td>
+                    <router-link :to="{path:'/create', query: {Id: record.recordId}}" >
+                        <button>
+                            ▼
+                        </button>
+                    </router-link>
+                </td>
+                <td><DeleteButton :targetRecord="record"/></td>
+            </tr>
+        </tbody>
+    </v-table>
     </v-app>
 </template>
 
 <script setup>
-import HeaderMenu from '@/components/HeaderMenu.vue'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios';
+import DeleteButton from './button/DeleteButton.vue';
+import NarrowDownButton from './button/NarrowDownButton.vue';
+import { useRoute } from "vue-router";
 
-const householdAccountBook = reactive({
-    date : '',
-    amountOfMoney : '',
-    category : '',
-    remarks : '',
-})
+const route = useRoute();
 
-const items = ref([]);
+const records = ref([]);
+const sortFlag = ref(false);
 
-
-axios.get("http://localhost:8080/record")
-    .then(response => {
-        items.value = response.data
-        // console.log(items.value)
+function getAxios(){
+    axios.get("http://localhost:8080/records",{
+        params:{
+            categoryId: route.query.Id,
+            startDating: route.query.startDating,
+            endDating: route.query.endDating,
+            sort: sortFlag.value
+        }
     })
 
+    .then(response => {
+        records.value = response.data
+    })
+}
+getAxios()
 
-//DBにレコードの用意
-//収入はカテゴリーに含める
-//
-
-//編集OKの処理にする
-// function submit(){
-//     axios.post("http://localhost:8080/record",{
-//         "date" : householdAccountBook.date,
-//         "amountOfMoney" : householdAccountBook.amountOfMoney,
-//         "category" : householdAccountBook.category,
-//         "remarks": householdAccountBook.remarks,
-//     }
-//     ,{ headers: { "Content-Type": "application/json"} }
-//     )
-//     .then(console.log(householdAccountBook))
-
-// }
+function sort(){
+    sortFlag.value = !sortFlag.value
+    getAxios()
+}
 </script>
 
 <style>
 #padding{
     padding-top: 180px;
 }
-
 </style>
