@@ -46,9 +46,10 @@ import { ref } from 'vue'
 import axios from 'axios';
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
-import {useRoute} from "vue-router";
+import {useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 
 const householdAccountBook = ref({    
     dating : '',
@@ -62,8 +63,7 @@ const items = ref([]);
 
 // 日付のフォーマット
 const format = args => {
-    console.log(args)
-    return `${args.getFullYear()}年${("0" + (args.getMonth() + 1)).slice(-2)}月${("0" + (args.getDate() + 1)).slice(-2)}日`
+    return `${args.getFullYear()}年${("0" + (args.getMonth() + 1)).slice(-2)}月${("0" + (args.getDate())).slice(-2)}日`
 }
 
 // 指定された家計簿を取得
@@ -101,7 +101,10 @@ function submit(){
         "remarks": householdAccountBook.value.remarks,
     }
     ,{ headers: { "Content-Type": "application/json"} }
-    )   
+    )
+    .then(
+        //最近の記録画面へ遷移
+        router.push('/record'))
 }
 </script>
 

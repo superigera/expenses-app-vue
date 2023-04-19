@@ -1,6 +1,6 @@
 <template>
     <router-link :to=to>
-        <v-btn rounded="lg" color="indigo-darken-1" size="x-large">
+        <v-btn rounded="lg" color="indigo-darken-1" size="large">
             {{ label }}
         </v-btn>
     </router-link>

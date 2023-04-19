@@ -6,6 +6,7 @@ import Signup from '@/views/Signup'
 import Mypage from '@/views/Mypage'
 import Inquiry from '@/views/Inquiry'
 import HouseholdAccountBook from '@/views/HouseholdAccountBook'
+import NarrowDown from '@/views/NarrowDown'
 
 const routes = [
     {
@@ -42,6 +43,11 @@ const routes = [
         path: '/create',
         name: 'HouseholdAccountBook',
         component: HouseholdAccountBook
+    },
+    {
+        path: '/narrowDown',
+        name: 'NarrowDown',
+        component: NarrowDown
     },
 ]
 
