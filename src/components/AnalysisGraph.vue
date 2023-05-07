@@ -3,74 +3,43 @@
         <p>グラフ</p>
         <p>何年何月の状況</p>
         <div>
-            <PieChart :chartData="data"/>
+            <p>支出内訳</p>
+            <DoughnutChart :chartData="data" />
         </div>
     </v-app>
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
 import axios from 'axios';
-import { Chart, DoughnutController, ArcElement, Tooltip ,PieChart} from 'chart.js';
-Chart.register(DoughnutController, ArcElement, Tooltip,Chart,PieChart);
-
-// const data = {
-//     labels: ['January', 'February', 'March'],
-//     datasets: [{ data: [40, 20, 12] }]
-// }
+import { Chart, registerables } from 'chart.js';
+import { DoughnutChart } from 'vue-chart-3';
+Chart.register(...registerables);
 
 const data = {
-    labels: [
-    'Red',
-    'Blue',
-    'Yellow'
-    ],
+    labels: [],
     datasets: [{
-    label: 'My First Dataset',
-    data: [300, 50, 100],
-    backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)'
-    ],
-    hoverOffset: 4
+        label: 'My First Dataset',
+        data: [300, 50, 100, 40, 120, 24, 52, 12, 2, 1],
+        backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
     }]
 };
 
-const options = {
-    responsive: true
-}
-
-
-const householdAccountBook = reactive({
-    recordId : '',
-    dating : '',
-    amountOfMoney : '',
-    categoryId : '',
-    remarks : '',
-})
-
-// function test(record){
-//     console.log(record)
-// }
-
-// const records = ref([]);
-// const sortFlag = ref(false);
-
-// axios.get("http://localhost:8080/records",{
-//     params:{
-//         sort: sortFlag.value
-//     }
-// })
-//     .then(response => {
-//         records.value = response.data
-//     })
+// カテゴリの種類を取得
+axios.get("http://localhost:8080/category")
+    .then(response => {
+        data.labels = response.data
+        console.log(data.labels)
+    })
 
 </script>
 
 <style>
-#padding{
+#padding {
     padding-top: 180px;
 }
-
 </style>
