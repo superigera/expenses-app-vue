@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <HeaderMenu />
     <v-sheet width="400" class="mx-auto">
       <v-form ref="form" id="padding">
         <p>新規会員登録</p>
@@ -8,7 +7,7 @@
 
         <v-text-field v-model="signupInfo.firstName" :counter="10" label="名"></v-text-field>
 
-        <v-text-field v-model="signupInfo.email" :counter="10" label="メールアドレス"></v-text-field>
+        <v-text-field v-model="signupInfo.email" label="メールアドレス"></v-text-field>
 
         <v-text-field v-model="signupInfo.password" :counter="10" label="パスワード"></v-text-field>
 

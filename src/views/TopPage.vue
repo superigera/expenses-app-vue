@@ -1,6 +1,5 @@
 <template>
   <v-app id="back-color">
-    <HeaderMenu />
     <v-carousel>
       <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover></v-carousel-item>
 

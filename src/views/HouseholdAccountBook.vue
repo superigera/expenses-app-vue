@@ -1,6 +1,5 @@
 <template>
     <v-app>
-        <HeaderMenu />
         <v-sheet width="200" class="mx-auto">
             <v-form ref="form" id="padding">
                 <p>家計簿入力</p>

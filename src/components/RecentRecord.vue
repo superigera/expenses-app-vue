@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app style="margin-top: -380px;">
         <h3>履歴一覧</h3>
 
         <div style="display: flex; margin-top: 10px;">
