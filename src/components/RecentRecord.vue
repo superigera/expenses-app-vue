@@ -1,44 +1,46 @@
 <template>
-    <v-app style="margin-top: -380px;">
-        <h3>履歴一覧</h3>
+    <v-app style="margin-top: -400px;">
+        <v-sheet width="1000px" class="mx-auto my-12 text-center pa-6" rounded="lg">
+            <h3>履歴一覧</h3>
 
-        <div style="display: flex; margin-top: 10px;">
-            <v-btn @click="sort" rounded="lg" color="indigo-darken-1" size="large">
-                並び替え
-            </v-btn>
-            <NarrowDownButton size="large" style="margin-left: 10px; width: 30px;" />
-        </div>
+            <div style="display: flex; margin-top: 10px;">
+                <v-btn @click="sort" rounded="lg" color="indigo-darken-1" size="large">
+                    並び替え
+                </v-btn>
+                <NarrowDownButton size="large" style="margin-left: 10px; width: 30px;" />
+            </div>
 
-        <v-table>
-            <thead>
-                <tr>
-                    <th>日付</th>
-                    <th>金額</th>
-                    <th>カテゴリ</th>
-                    <th>備考</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="record in records" :key="record.recordId">
-                    <td>{{ record.dating }}</td>
-                    <td>{{ record.amountOfMoney }}</td>
-                    <td>{{ record.categoryName }}</td>
-                    <td>{{ record.remarks }}</td>
-                    <td>
-                        <router-link :to="{ path: '/create', query: { Id: record.recordId } }">
-                            <button>
-                                ▼
-                            </button>
-                        </router-link>
-                    </td>
-                    <td>
-                        <DeleteButton :targetRecord="record" />
-                    </td>
-                </tr>
-            </tbody>
-        </v-table>
+            <v-table>
+                <thead>
+                    <tr>
+                        <th>日付</th>
+                        <th>金額</th>
+                        <th>カテゴリ</th>
+                        <th>備考</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="record in records" :key="record.recordId">
+                        <td>{{ record.dating }}</td>
+                        <td>{{ record.amountOfMoney }}</td>
+                        <td>{{ record.categoryName }}</td>
+                        <td>{{ record.remarks }}</td>
+                        <td>
+                            <router-link :to="{ path: '/create', query: { Id: record.recordId } }">
+                                <button>
+                                    ▼
+                                </button>
+                            </router-link>
+                        </td>
+                        <td>
+                            <DeleteButton :targetRecord="record" />
+                        </td>
+                    </tr>
+                </tbody>
+            </v-table>
+        </v-sheet>
     </v-app>
 </template>
 

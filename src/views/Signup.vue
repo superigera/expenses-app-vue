@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-sheet width="400" class="mx-auto">
-      <v-form ref="form" id="padding">
+    <v-sheet width="500" class="ma-auto" rounded="lg">
+      <v-form class="pa-6 ma-12">
         <p>新規会員登録</p>
         <v-text-field v-model="signupInfo.lastName" :counter="10" label="性"></v-text-field>
 
@@ -50,8 +50,4 @@ function submit() {
 }
 </script>
 
-<style>
-#padding {
-  padding-top: 180px;
-}
-</style>
+<style></style>

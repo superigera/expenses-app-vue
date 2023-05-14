@@ -25,8 +25,4 @@ import SignupButton from '@/components/button/SignupButton.vue';
 
 </script>
 
-<style scoped>
-#back-color {
-  background: #E8EAF6;
-}
-</style>
+<style></style>

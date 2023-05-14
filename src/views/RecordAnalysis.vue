@@ -1,9 +1,9 @@
 <template>
   <!-- グラフ -->
-  <AnalysisGraph />
+  <AnalysisGraph style="background-color: #B0BEC5;" />
 
   <!-- 最近の記録欄 -->
-  <RecentRecord />
+  <RecentRecord style="background-color: #B0BEC5;" />
 </template>
 
 <script setup>
