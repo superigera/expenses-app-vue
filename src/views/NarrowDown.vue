@@ -1,7 +1,7 @@
 <template>
     <v-app>
-        <v-sheet width="200" class="mx-auto">
-            <v-form ref="form" id="padding">
+        <v-sheet width="500" class="ma-auto" rounded="lg">
+            <v-form class="pa-6 ma-12">
 
                 <v-select v-model="narrowDown.categoryName" :items="items" label="カテゴリ"></v-select>
 

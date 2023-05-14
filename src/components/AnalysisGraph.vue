@@ -1,24 +1,26 @@
 <template>
     <v-app>
-        <p>何年何月の状況</p>
-        <div>
-            <span>予算</span>
-            <span></span>
-            <span>支出</span>
-            <span></span>
-            <span>残り</span>
-        </div>
-        <div>
-            <span>{{ totalIncome }}</span>
-            <span>-</span>
-            <span>{{ totalSpending }}</span>
-            <span>=</span>
-            <span>{{ totalRemaining }}</span>
-        </div>
-        <div style="display: inline-block; width: 50%;">
-            <p>支出内訳</p>
-            <DoughnutChart :chartData="spendingData" />
-        </div>
+        <v-sheet width="1000px" class="mx-auto my-12 text-center pa-6" rounded="lg">
+            <h3>{{ year }}年{{ month }}月の状況</h3>
+            <div>
+                <span>予算</span>
+                <span></span>
+                <span>支出</span>
+                <span></span>
+                <span>残り</span>
+            </div>
+            <div>
+                <span>{{ totalIncome }}</span>
+                <span>-</span>
+                <span>{{ totalSpending }}</span>
+                <span>=</span>
+                <span>{{ totalRemaining }}</span>
+            </div>
+            <div style="display: inline-block; width: 50%;">
+                <p>支出内訳</p>
+                <DoughnutChart :chartData="spendingData" />
+            </div>
+        </v-sheet>
     </v-app>
 </template>
 
@@ -32,6 +34,13 @@ Chart.register(...registerables);
 const totalSpending = ref(0);
 const totalIncome = ref(0);
 const totalRemaining = ref(0);
+const year = ref();
+const month = ref();
+
+//年月を取得
+const today = new Date()
+year.value = today.getFullYear()
+month.value = today.getMonth() + 1
 
 const spendingData = reactive({
     labels: [],
@@ -71,16 +80,14 @@ axios.get("http://localhost:8080/current-records")
         totalSpending.value = response.data.slice(3).reduce((a, b) => a + b, 0)
         console.log(totalSpending.value)
 
+        // 残りを計算
         totalRemaining.value = totalIncome.value - totalSpending.value
+
     })
 
 </script>
 
 <style>
-#padding {
-    padding-top: 180px;
-}
-
 span {
     display: inline-block;
     width: 100px;

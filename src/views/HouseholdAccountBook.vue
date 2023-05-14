@@ -1,7 +1,7 @@
 <template>
     <v-app>
-        <v-sheet width="200" class="mx-auto">
-            <v-form ref="form" id="padding">
+        <v-sheet width="500" class="ma-auto" rounded="lg">
+            <v-form class="pa-6 ma-12">
                 <p>家計簿入力</p>
 
                 <Datepicker style="padding-bottom: 22px;" v-model="householdAccountBook.dating" :format="format"
@@ -90,8 +90,4 @@ function submit() {
 }
 </script>
 
-<style>
-#padding {
-    padding-top: 180px;
-}
-</style>
+<style></style>
