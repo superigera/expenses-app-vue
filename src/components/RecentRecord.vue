@@ -1,9 +1,16 @@
 <template>
     <v-app style="margin-top: -400px;">
+        <v-data-table :headers="headers" :items="test">
+            <!-- <template #actions="{ id }">
+                <v-btn icon @click="deleteTest(id)">
+                    <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+            </template> -->
+        </v-data-table>
         <v-sheet width="1000px" class="mx-auto my-12 text-center pa-6" rounded="lg">
             <h3>履歴一覧</h3>
 
-            <div style="display: flex; margin-top: 10px;">
+            <!-- <div style="display: flex; margin-top: 10px;">
                 <v-btn @click="sort" rounded="lg" color="indigo-darken-1" size="large">
                     並び替え
                 </v-btn>
@@ -39,7 +46,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </v-table>
+            </v-table> -->
         </v-sheet>
     </v-app>
 </template>
@@ -50,6 +57,31 @@ import axios from 'axios';
 import DeleteButton from './button/DeleteButton.vue';
 import NarrowDownButton from './button/NarrowDownButton.vue';
 import { useRoute } from "vue-router";
+import { VDataTable } from 'vuetify/labs/VDataTable'
+
+
+
+
+
+const headers = [
+    { title: '日付', align: 'end', key: 'dating' },
+    { title: '金額', align: 'end', key: 'amountOfMoney' },
+    { title: 'カテゴリ', align: 'end', key: 'categoryName' },
+    { title: '備考', align: 'end', value: 'remarks' },
+    { text: '編集', value: 'edit', sortable: false },
+    { text: '削除', value: 'delete', sortable: false }
+]
+
+const test = ref({
+    dating: '',
+    amountOfMoney: '',
+    categoryName: '',
+    remarks: '',
+});
+
+function deleteTest(item) {
+    console.log(item)
+}
 
 const route = useRoute();
 
@@ -68,6 +100,8 @@ function getAxios() {
 
         .then(response => {
             records.value = response.data
+            test.value = response.data
+            console.log(test.value)
         })
 }
 getAxios()
