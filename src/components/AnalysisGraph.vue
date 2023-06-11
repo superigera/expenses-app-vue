@@ -36,6 +36,7 @@ const totalIncome = ref(0);
 const totalRemaining = ref(0);
 const year = ref();
 const month = ref();
+const BASE_URL = process.env.VUE_APP_API_BASE_URL
 
 //年月を取得
 const today = new Date()
@@ -61,7 +62,7 @@ const spendingData = reactive({
 });
 
 // カテゴリの種類を取得
-axios.get("http://localhost:8080/category")
+axios.get(BASE_URL + "/category")
     .then(response => {
 
         // slice(3)で先頭の3つ(収入系)を除外
@@ -69,7 +70,7 @@ axios.get("http://localhost:8080/category")
     })
 
 // 当月の家計簿データを取得
-axios.get("http://localhost:8080/current-records")
+axios.get(BASE_URL + "/current-records")
     .then(response => {
         // slice(0, 3)で先頭の3つ(収入系)を取得
         totalIncome.value = response.data.slice(0, 3).reduce((a, b) => a + b, 0)

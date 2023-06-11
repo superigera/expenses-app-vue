@@ -24,6 +24,7 @@
 <script setup>
 import { reactive } from 'vue'
 import axios from 'axios';
+const BASE_URL = process.env.VUE_APP_API_BASE_URL
 
 const inquiry = reactive({
   lastName: '',
@@ -36,7 +37,7 @@ const inquiry = reactive({
 function submit() {
   if (confirm(`この内容で送信しますか？\r\n氏名：${inquiry.lastName + " " + inquiry.firstName}\r\nメールアドレス：${inquiry.email}\r\nメールアドレス：${inquiry.email}\r\n問い合わせ内容：${inquiry.content}`)) {
 
-    axios.post("http://localhost:8080/inquiry", {
+    axios.post(BASE_URL + "/inquiry", {
       "lastName": inquiry.lastName,
       "firstName": inquiry.firstName,
       "email": inquiry.email,

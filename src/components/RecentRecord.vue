@@ -1,16 +1,16 @@
 <template>
     <v-app style="margin-top: -400px;">
-        <v-data-table :headers="headers" :items="test">
-            <!-- <template #actions="{ id }">
-                <v-btn icon @click="deleteTest(id)">
-                    <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-            </template> -->
-        </v-data-table>
         <v-sheet width="1000px" class="mx-auto my-12 text-center pa-6" rounded="lg">
+            <!-- <v-data-table :headers="headers" :items="test">
+                <template #actions="{ id }">
+                    <v-btn icon @click="deleteTest(id)">
+                        <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                </template>
+            </v-data-table> -->
             <h3>履歴一覧</h3>
 
-            <!-- <div style="display: flex; margin-top: 10px;">
+            <div style="display: flex; margin-top: 10px;">
                 <v-btn @click="sort" rounded="lg" color="indigo-darken-1" size="large">
                     並び替え
                 </v-btn>
@@ -46,7 +46,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </v-table> -->
+            </v-table>
         </v-sheet>
     </v-app>
 </template>
@@ -59,7 +59,7 @@ import NarrowDownButton from './button/NarrowDownButton.vue';
 import { useRoute } from "vue-router";
 import { VDataTable } from 'vuetify/labs/VDataTable'
 
-
+const BASE_URL = process.env.VUE_APP_API_BASE_URL
 
 
 
@@ -79,9 +79,9 @@ const test = ref({
     remarks: '',
 });
 
-function deleteTest(item) {
-    console.log(item)
-}
+// function deleteTest(item) {
+//     console.log(item)
+// }
 
 const route = useRoute();
 
@@ -89,7 +89,7 @@ const records = ref([]);
 const sortFlag = ref(false);
 
 function getAxios() {
-    axios.get("http://localhost:8080/records", {
+    axios.get(BASE_URL + "/records", {
         params: {
             categoryId: route.query.Id || '0',
             startDating: route.query.startDating || '0001-01-01',

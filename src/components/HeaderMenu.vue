@@ -23,12 +23,9 @@ const drawer = ref(false);
 
 const items = [
   { title: 'TOP', icon: 'mdi-home', route: '/top' },
-  { title: '新規会員登録', icon: 'mdi-account', route: '/signup' },
-  { title: 'ログイン', icon: 'mdi-login', route: '/login' },
   { title: '問い合わせ', icon: 'mdi-email', route: '/inquiry' },
-  { title: 'テスト記録分析', icon: 'mdi-email', route: '/record' },
-  { title: 'テスト家計簿入力', icon: 'mdi-email', route: '/create' },
-  { title: 'テストMypage', icon: 'mdi-email', route: '/mypage' },
+  { title: '記録分析', icon: 'mdi-email', route: '/record' },
+  { title: '家計簿入力', icon: 'mdi-email', route: '/create' },
 ];
 
 function navigateTo(route) {

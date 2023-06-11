@@ -1,14 +1,9 @@
 <template>
-    <BaseButton  to="/signup" label ="新規会員登録"/>
+  <BaseButton to="/record" label="記録分析" />
 </template>
 
 <script setup>
 import BaseButton from './BaseButton.vue';
-
 </script>
 
-<style scoped>
-
-</style>
-
-
+<style scoped></style>

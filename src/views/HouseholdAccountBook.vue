@@ -32,6 +32,7 @@ import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
+const BASE_URL = process.env.VUE_APP_API_BASE_URL
 
 const householdAccountBook = ref({
     dating: '',
@@ -49,7 +50,7 @@ const format = args => {
 }
 
 // 指定された家計簿を取得
-axios.get("http://localhost:8080/record", {
+axios.get(BASE_URL + "/record", {
     params: {
         Id: route.query.Id
     }
@@ -63,7 +64,7 @@ axios.get("http://localhost:8080/record", {
     })
 
 // カテゴリの種類を取得
-axios.get("http://localhost:8080/category")
+axios.get(BASE_URL + "/category")
     .then(response => {
         items.value = response.data
     })
@@ -76,7 +77,7 @@ function submit() {
     //日付置換
     const dateReplacement = householdAccountBook.value.dating.replace(/年|月/g, '-').replace('日', '')
 
-    axios.post("http://localhost:8080/record", {
+    axios.post(BASE_URL + "/record", {
         "dating": dateReplacement,
         "amountOfMoney": householdAccountBook.value.amountOfMoney,
         "categoryId": pullDownIndex,
