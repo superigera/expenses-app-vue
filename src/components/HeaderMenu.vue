@@ -23,9 +23,9 @@ const drawer = ref(false);
 
 const items = [
   { title: 'TOP', icon: 'mdi-home', route: '/top' },
+  { title: '家計簿入力', icon: 'mdi-book-open', route: '/create' },
+  { title: '記録分析', icon: 'mdi-chart-pie', route: '/record' },
   { title: '問い合わせ', icon: 'mdi-email', route: '/inquiry' },
-  { title: '記録分析', icon: 'mdi-email', route: '/record' },
-  { title: '家計簿入力', icon: 'mdi-email', route: '/create' },
 ];
 
 function navigateTo(route) {
