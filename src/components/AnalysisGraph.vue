@@ -74,12 +74,10 @@ axios.get(BASE_URL + "/current-records")
     .then(response => {
         // slice(0, 3)で先頭の3つ(収入系)を取得
         totalIncome.value = response.data.slice(0, 3).reduce((a, b) => a + b, 0)
-        console.log(totalIncome.value)
 
         // slice(3)で先頭の3つ(収入系)を除外
         spendingData.datasets[0].data = response.data.slice(3)
         totalSpending.value = response.data.slice(3).reduce((a, b) => a + b, 0)
-        console.log(totalSpending.value)
 
         // 残りを計算
         totalRemaining.value = totalIncome.value - totalSpending.value

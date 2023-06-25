@@ -78,7 +78,6 @@ function submit() {
 
     // 形式変換
     narrowDown.value.categoryId = pullDownIndex
-    console.log(narrowDown.value.categoryId)
     narrowDown.value.startDating = narrowDown.value.startDating.replace(/年|月/g, "-").replace(/日/g, "")
     narrowDown.value.endDating = narrowDown.value.endDating.replace(/年|月/g, "-").replace(/日/g, "")
 }
