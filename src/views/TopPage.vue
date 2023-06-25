@@ -10,8 +10,8 @@
 
 
     <div class="d-flex justify-space-around pt-12">
-      <LoginButton />
-      <SignupButton />
+      <InputHouseholdAccountBookButton />
+      <RecordAnalysisButton />
       <InquiryButton />
     </div>
 
@@ -19,9 +19,9 @@
 </template>
 
 <script setup>
-import LoginButton from '@/components/button/LoginButton.vue';
 import InquiryButton from '@/components/button/InquiryButton.vue'
-import SignupButton from '@/components/button/SignupButton.vue';
+import InputHouseholdAccountBookButton from '@/components/button/InputHouseholdAccountBookButton.vue';
+import RecordAnalysisButton from '@/components/button/RecordAnalysisButton.vue';
 
 </script>
 

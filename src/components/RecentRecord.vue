@@ -1,45 +1,13 @@
 <template>
     <v-app style="margin-top: -400px;">
         <v-sheet width="1000px" class="mx-auto my-12 text-center pa-6" rounded="lg">
+
             <h3>履歴一覧</h3>
+            <v-data-table v-model:items-per-page="itemsPerPage" :items="records" :headers="headers" class="elevation-2"
+                item-value="name">
 
-            <div style="display: flex; margin-top: 10px;">
-                <v-btn @click="sort" rounded="lg" color="indigo-darken-1" size="large">
-                    並び替え
-                </v-btn>
-                <NarrowDownButton size="large" style="margin-left: 10px; width: 30px;" />
-            </div>
+            </v-data-table>
 
-            <v-table>
-                <thead>
-                    <tr>
-                        <th>日付</th>
-                        <th>金額</th>
-                        <th>カテゴリ</th>
-                        <th>備考</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="record in records" :key="record.recordId">
-                        <td>{{ record.dating }}</td>
-                        <td>{{ record.amountOfMoney }}</td>
-                        <td>{{ record.categoryName }}</td>
-                        <td>{{ record.remarks }}</td>
-                        <td>
-                            <router-link :to="{ path: '/create', query: { Id: record.recordId } }">
-                                <button>
-                                    ▼
-                                </button>
-                            </router-link>
-                        </td>
-                        <td>
-                            <DeleteButton :targetRecord="record" />
-                        </td>
-                    </tr>
-                </tbody>
-            </v-table>
         </v-sheet>
     </v-app>
 </template>
@@ -47,39 +15,38 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios';
-import DeleteButton from './button/DeleteButton.vue';
-import NarrowDownButton from './button/NarrowDownButton.vue';
 import { useRoute } from "vue-router";
+import { VDataTable } from 'vuetify/labs/VDataTable'
+
+const BASE_URL = process.env.VUE_APP_API_BASE_URL
 
 const route = useRoute();
-
 const records = ref([]);
-const sortFlag = ref(false);
+const itemsPerPage = ref(5)
 
-function getAxios() {
-    axios.get("http://localhost:8080/records", {
-        params: {
-            categoryId: route.query.Id || '0',
-            startDating: route.query.startDating || '0001-01-01',
-            endDating: route.query.endDating || '9999-12-31',
-            sort: sortFlag.value
-        }
+const headers = ref([
+    { title: '日付', align: 'end', key: 'dating' },
+    { title: '金額', align: 'end', key: 'amountOfMoney' },
+    { title: 'カテゴリ', align: 'center', key: 'categoryName' },
+    { title: '備考', align: 'start', value: 'remarks' },
+    { text: '編集', align: 'end', value: 'edit', sortable: false },
+    { text: '削除', align: 'end', value: 'delete', sortable: false }
+])
+
+//家計簿データ取得
+axios.get(BASE_URL + "/records", {
+    params: {
+        categoryId: route.query.Id || '0',
+        startDating: route.query.startDating || '0001-01-01',
+        endDating: route.query.endDating || '9999-12-31',
+    }
+})
+    .then(response => {
+        records.value = response.data
+        console.log(response.data)
     })
 
-        .then(response => {
-            records.value = response.data
-        })
-}
-getAxios()
 
-function sort() {
-    sortFlag.value = !sortFlag.value
-    getAxios()
-}
 </script>
 
-<style>
-#padding {
-    padding-top: 180px;
-}
-</style>
+<style></style>

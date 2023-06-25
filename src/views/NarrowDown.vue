@@ -34,6 +34,7 @@ import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 const items = ref([]);
+const BASE_URL = process.env.VUE_APP_API_BASE_URL
 
 const narrowDown = ref({
     categoryId: '',
@@ -48,7 +49,7 @@ const format = args => {
 }
 
 // カテゴリの種類を取得
-axios.get("http://localhost:8080/category")
+axios.get(BASE_URL + "/category")
     .then(response => {
         items.value = response.data
     })
@@ -77,7 +78,6 @@ function submit() {
 
     // 形式変換
     narrowDown.value.categoryId = pullDownIndex
-    console.log(narrowDown.value.categoryId)
     narrowDown.value.startDating = narrowDown.value.startDating.replace(/年|月/g, "-").replace(/日/g, "")
     narrowDown.value.endDating = narrowDown.value.endDating.replace(/年|月/g, "-").replace(/日/g, "")
 }

@@ -1,21 +1,25 @@
 <template>
     <v-app>
         <v-sheet width="500" class="ma-auto" rounded="lg">
-            <v-form class="pa-6 ma-12">
+            <v-form class="pa-6 ma-12" @submit.prevent="householdAccountBookSubmit">
                 <p>家計簿入力</p>
 
                 <Datepicker style="padding-bottom: 22px;" v-model="householdAccountBook.dating" :format="format"
-                    model-type="yyyy年MM月dd日" />
+                    model-type="yyyy年MM月dd日" :rules="requiredRules" />
 
-                <v-text-field v-model="householdAccountBook.amountOfMoney" :counter="10" label="金額"></v-text-field>
+                <v-text-field v-model="householdAccountBook.amountOfMoney" label="金額" :rules="numberRules"></v-text-field>
 
-                <v-select v-model="householdAccountBook.categoryId" :items="items" label="カテゴリ"></v-select>
+                <v-select v-model="householdAccountBook.categoryId" :items="items" label="カテゴリ"
+                    :rules="requiredRules"></v-select>
 
-                <v-text-field v-model="householdAccountBook.remarks" :counter="10" label="備考"></v-text-field>
+                <v-text-field v-model="householdAccountBook.remarks" label="備考"></v-text-field>
 
                 <div class="d-flex flex-column">
-                    <v-btn rounded="lg" color="indigo-darken-1" size="large" @click="submit">
+                    <v-btn type="submit" rounded="lg" color="indigo-darken-1" size="large">
                         記録
+                    </v-btn>
+                    <v-btn @click="back" class="mt-6" rounded="lg" color="indigo-darken-1" size="large">
+                        戻る
                     </v-btn>
                 </div>
             </v-form>
@@ -24,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import axios from 'axios';
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -32,8 +36,9 @@ import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
+const BASE_URL = process.env.VUE_APP_API_BASE_URL
 
-const householdAccountBook = ref({
+const householdAccountBook = reactive({
     dating: '',
     amountOfMoney: '',
     categoryId: '',
@@ -41,7 +46,20 @@ const householdAccountBook = ref({
     remarks: ''
 })
 
+const requiredRules = [
+    value => !!value || '必須項目です.'
+]
+
+const numberRules = [
+    value => !!value || '必須項目です.',
+    value => !isNaN(value) || '数字を入力してください.'
+]
+
 const items = ref([]);
+
+function back() {
+    router.push('/record')
+}
 
 // 日付のフォーマット
 const format = args => {
@@ -49,38 +67,51 @@ const format = args => {
 }
 
 // 指定された家計簿を取得
-axios.get("http://localhost:8080/record", {
-    params: {
-        Id: route.query.Id
-    }
-})
-    .then(response => {
-        console.log(response.data)
-        householdAccountBook.value.dating = response.data.dating.replace('-', '年').replace('-', '月') + '日'
-        householdAccountBook.value.amountOfMoney = response.data.amountOfMoney
-        householdAccountBook.value.categoryId = response.data.categoryName
-        householdAccountBook.value.remarks = response.data.remarks
+if (route.query.Id != null) {
+    axios.get(BASE_URL + "/record", {
+        params: {
+            Id: route.query.Id
+        }
     })
+        .then(response => {
+            householdAccountBook.dating = response.data.dating.replace('-', '年').replace('-', '月') + '日'
+            householdAccountBook.amountOfMoney = response.data.amountOfMoney
+            householdAccountBook.categoryId = response.data.categoryName
+            householdAccountBook.remarks = response.data.remarks
+        })
+}
 
-// カテゴリの種類を取得
-axios.get("http://localhost:8080/category")
+//編集以外で家計簿を入力する場合、日付を今日とする
+if (route.query.Id == null) {
+    const today = new Date()
+    householdAccountBook.dating = format(today)
+}
+
+//プルダウンに表示するカテゴリを取得
+axios.get(BASE_URL + "/category")
     .then(response => {
         items.value = response.data
     })
 
 // 記録ボタン押下
-function submit() {
+function householdAccountBookSubmit() {
+    //formのバリデーションチェック
+    if (householdAccountBook.dating == '' || householdAccountBook.amountOfMoney == '' || householdAccountBook.categoryId == '') {
+        alert("必須項目を入力してください。")
+        return
+    }
+
     //プルダウンのindexを取得
-    const pullDownIndex = items.value.indexOf(householdAccountBook.value.categoryId)
+    const pullDownIndex = items.value.indexOf(householdAccountBook.categoryId)
 
     //日付置換
-    const dateReplacement = householdAccountBook.value.dating.replace(/年|月/g, '-').replace('日', '')
+    const dateReplacement = householdAccountBook.dating.replace(/年|月/g, '-').replace('日', '')
 
-    axios.post("http://localhost:8080/record", {
+    axios.post(BASE_URL + "/record", {
         "dating": dateReplacement,
-        "amountOfMoney": householdAccountBook.value.amountOfMoney,
+        "amountOfMoney": householdAccountBook.amountOfMoney,
         "categoryId": pullDownIndex,
-        "remarks": householdAccountBook.value.remarks,
+        "remarks": householdAccountBook.remarks,
     }
         , { headers: { "Content-Type": "application/json" } }
     )
@@ -90,4 +121,9 @@ function submit() {
 }
 </script>
 
-<style></style>
+<style>
+/* カテゴリ左寄せ用 */
+.v-select__selection-text {
+    text-align: left;
+}
+</style>
