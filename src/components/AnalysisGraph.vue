@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref } from 'vue';
 import axios from 'axios';
 import { Chart, registerables } from 'chart.js';
 import { DoughnutChart } from 'vue-chart-3';
@@ -67,6 +67,7 @@ axios.get(BASE_URL + "/category")
 
         // slice(3)で先頭の3つ(収入系)を除外
         spendingData.labels = response.data.slice(3)
+        console.log(spendingData.labels)
     })
 
 // 当月の家計簿データを取得
@@ -77,6 +78,7 @@ axios.get(BASE_URL + "/current-records")
 
         // slice(3)で先頭の3つ(収入系)を除外
         spendingData.datasets[0].data = response.data.slice(3)
+        console.log(spendingData.datasets[0].data)
         totalSpending.value = response.data.slice(3).reduce((a, b) => a + b, 0)
 
         // 残りを計算
